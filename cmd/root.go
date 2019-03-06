@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/aidun/netflux/daemon"
 	"os"
 
+	"github.com/aidun/netflux/daemon"
 	"github.com/spf13/cobra"
 )
 

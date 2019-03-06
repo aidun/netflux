@@ -1,11 +1,12 @@
 package daemon
 
 import (
-	netatmo "github.com/exzz/netatmo-api-go"
-	client "github.com/influxdata/influxdb1-client"
 	"log"
 	"net/url"
 	"time"
+
+	netatmo "github.com/exzz/netatmo-api-go"
+	client "github.com/influxdata/influxdb1-client"
 )
 
 type netfluxDaemon struct {
