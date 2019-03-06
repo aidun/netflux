@@ -1,4 +1,4 @@
-workflow "New workflow" {
+workflow "net flux Build" {
   on = "push"
   resolves = ["GitHub Action for Docker"]
 }
