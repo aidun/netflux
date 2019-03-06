@@ -54,7 +54,7 @@ func NewNetfluxDaemon(
 	if err != nil {
 		log.Fatalf("Could not create Influxdb connection %s", err)
 	}
-	log.Printf("Connection to influx db estabilished: %s", con)
+	log.Printf("Connection to influx db estabilished: %v", con)
 
 	return &netfluxDaemon{
 		netatmo:           n,
