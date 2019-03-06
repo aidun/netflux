@@ -14,28 +14,28 @@ var rootCmd = &cobra.Command{
 	Long:  `netflux is a tool to push netatmo weather data to influxdb`,
 	Run: func(cmd *cobra.Command, args []string) {
 		nd := daemon.NewNetfluxDaemon(
-			netatmo_clientid,
-			netatmo_clientsecret,
-			netatmo_user,
-			netatmo_password,
-			influxdb_url,
-			influxdb_user,
-			influxdb_password,
-			influxdb_database,
+			netatmoClientid,
+			netatmoClientsecret,
+			netatmoUser,
+			netatmoPassword,
+			influxdbURL,
+			influxdbUser,
+			influxdbPassword,
+			influxdbDatabase,
 		)
 
 		nd.Start()
 	},
 }
 
-var netatmo_user string
-var netatmo_password string
-var netatmo_clientid string
-var netatmo_clientsecret string
-var influxdb_url string
-var influxdb_user string
-var influxdb_password string
-var influxdb_database string
+var netatmoUser string
+var netatmoPassword string
+var netatmoClientid string
+var netatmoClientsecret string
+var influxdbURL string
+var influxdbUser string
+var influxdbPassword string
+var influxdbDatabase string
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
@@ -47,15 +47,15 @@ func Execute() {
 func init() {
 	cobra.OnInitialize()
 
-	rootCmd.PersistentFlags().StringVar(&netatmo_user, "netatmo_user", "", "User to Netatmo Weather API")
-	rootCmd.PersistentFlags().StringVar(&netatmo_password, "netatmo_password", "", "Password to Netatmo Weather API")
-	rootCmd.PersistentFlags().StringVar(&netatmo_clientid, "netatmo_clientid", "", "Client-ID to Netatmo Weather API")
-	rootCmd.PersistentFlags().StringVar(&netatmo_clientsecret, "netatmo_clientsecret", "", "Client-Secret to Netatmo Weather API")
+	rootCmd.PersistentFlags().StringVar(&netatmoUser, "netatmo_user", "", "User to Netatmo Weather API")
+	rootCmd.PersistentFlags().StringVar(&netatmoPassword, "netatmo_password", "", "Password to Netatmo Weather API")
+	rootCmd.PersistentFlags().StringVar(&netatmoClientid, "netatmo_clientid", "", "Client-ID to Netatmo Weather API")
+	rootCmd.PersistentFlags().StringVar(&netatmoClientsecret, "netatmo_clientsecret", "", "Client-Secret to Netatmo Weather API")
 
-	rootCmd.PersistentFlags().StringVar(&influxdb_url, "influxdb_url", "", "API of the influxdb instance")
-	rootCmd.PersistentFlags().StringVar(&influxdb_user, "influxdb_user", "", "User of the influxdb with write access")
-	rootCmd.PersistentFlags().StringVar(&influxdb_password, "influxdb_password", "", "Password of the influxdb user")
-	rootCmd.PersistentFlags().StringVar(&influxdb_database, "influxdb_database", "", "Database")
+	rootCmd.PersistentFlags().StringVar(&influxdbURL, "influxdb_url", "", "API of the influxdb instance")
+	rootCmd.PersistentFlags().StringVar(&influxdbUser, "influxdb_user", "", "User of the influxdb with write access")
+	rootCmd.PersistentFlags().StringVar(&influxdbPassword, "influxdb_password", "", "Password of the influxdb user")
+	rootCmd.PersistentFlags().StringVar(&influxdbDatabase, "influxdb_database", "", "Database")
 
 	rootCmd.MarkPersistentFlagRequired("netatmo_user")
 	rootCmd.MarkPersistentFlagRequired("netatmo_password")
