@@ -115,7 +115,7 @@ func (nd *netfluxDaemon) Start() {
 				_, err := nd.influxdb.Write(bps)
 
 				if err != nil {
-					log.Printf("Could not write data to influxdb %s", err)
+					log.Printf("Could not write data to influxdb: %s", err)
 				}
 			}
 
