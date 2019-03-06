@@ -34,4 +34,5 @@ action "GitHub Push" {
 
 action "cedrickring/golang-action/go1.12@1.1.1" {
   uses = "cedrickring/golang-action@1.1.1"
+  args = "export GO111MODULE=on go build ./... && export GO111MODULE=on go test ./..."
 }
