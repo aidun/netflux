@@ -1,9 +1,6 @@
 workflow "netflux Build" {
   on = "push"
-  resolves = [
-    "GitHub Push",
-    "cedrickring/golang-action/go1.12@1.1.1",
-  ]
+  resolves = [ "GitHub Push"]
 }
 
 action "GitHub Action for Docker" {
@@ -14,9 +11,7 @@ action "GitHub Action for Docker" {
 action "Docker Registry" {
   uses = "actions/docker/login@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = [
-    "GitHub Action for Docker",
-    "cedrickring/golang-action/go1.12@1.1.1",
-  ]
+    "GitHub Action for Docker" ]
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
@@ -30,9 +25,4 @@ action "GitHub Push" {
   uses = "actions/docker/cli@8cdf801b322af5f369e00d85e9cf3a7122f49108"
   needs = ["Docker Tag"]
   args = "push aidun/netflux"
-}
-
-action "cedrickring/golang-action/go1.12@1.1.1" {
-  uses = "cedrickring/golang-action@1.1.1"
-  args = "export GO111MODULE=on go build ./... && export GO111MODULE=on go test ./..."
 }
