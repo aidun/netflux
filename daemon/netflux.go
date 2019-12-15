@@ -1,37 +1,38 @@
 package daemon
 
 import (
-	netatmo "github.com/exzz/netatmo-api-go"
-	client "github.com/influxdata/influxdb1-client"
 	"log"
 	"net/url"
 	"time"
+
+	netatmo "github.com/exzz/netatmo-api-go"
+	client "github.com/influxdata/influxdb1-client"
 )
 
-type netfluxDaemon struct {
-	netatmo           *netatmo.Client
-	influxdb          *client.Client
-	influxdb_database string
+type NetfluxDaemon struct {
+	netatmo              *netatmo.Client
+	influxdb             *client.Client
+	influxdbDatabaseName string
 }
 
 func NewNetfluxDaemon(
-	netatmo_clientid string,
-	netatmo_clientsecret string,
-	netatmo_user string,
-	netatmo_password string,
+	netatmoClientid string,
+	netatmoClientsecret string,
+	netatmoUser string,
+	netatmoPassword string,
 
-	influxdb_url string,
-	influxdb_user string,
-	influxdb_password string,
-	influxdb_database string,
-) *netfluxDaemon {
+	influxdbURL string,
+	influxdbUser string,
+	influxdbPassword string,
+	influxdbDatabaseName string,
+) *NetfluxDaemon {
 
 	// Netatmo
 	n, err := netatmo.NewClient(netatmo.Config{
-		ClientID:     netatmo_clientid,
-		ClientSecret: netatmo_clientsecret,
-		Username:     netatmo_user,
-		Password:     netatmo_password,
+		ClientID:     netatmoClientid,
+		ClientSecret: netatmoClientsecret,
+		Username:     netatmoUser,
+		Password:     netatmoPassword,
 	})
 
 	if err != nil {
@@ -39,31 +40,31 @@ func NewNetfluxDaemon(
 	}
 
 	// Influxdb
-	host, err := url.Parse(influxdb_url)
+	host, err := url.Parse(influxdbURL)
 	if err != nil {
 		log.Fatalf("Could not create Influxdb-Config %s", err)
 	}
 
 	conf := client.Config{
 		URL:      *host,
-		Username: influxdb_user,
-		Password: influxdb_password,
+		Username: influxdbUser,
+		Password: influxdbPassword,
 	}
 
 	con, err := client.NewClient(conf)
 	if err != nil {
 		log.Fatalf("Could not create Influxdb connection %s", err)
 	}
-	log.Printf("Connection to influx db estabilished: %s", con)
+	log.Printf("Connection to influx db estabilished: %v", con)
 
-	return &netfluxDaemon{
-		netatmo:           n,
-		influxdb:          con,
-		influxdb_database: influxdb_database,
+	return &NetfluxDaemon{
+		netatmo:              n,
+		influxdb:             con,
+		influxdbDatabaseName: influxdbDatabaseName,
 	}
 }
 
-func (nd *netfluxDaemon) Start() {
+func (nd *NetfluxDaemon) Start() {
 	for {
 		dc, err := nd.netatmo.Read()
 
@@ -108,7 +109,7 @@ func (nd *netfluxDaemon) Start() {
 
 				bps := client.BatchPoints{
 					Points:          pts,
-					Database:        nd.influxdb_database,
+					Database:        nd.influxdbDatabaseName,
 					RetentionPolicy: "autogen",
 				}
 
